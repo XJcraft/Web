@@ -1,0 +1,58 @@
+<div ng-controller="adminFriendLinkCtrl">
+    <div class="panel">
+        <div class="inner page-header">
+            <strong>友情链接查询/设置</strong>
+            <div class="right">
+            
+             <button class="pure-button success-bg pure-button-small" ng-click="postAdd()">新增</button>
+              <button class="pure-button info-bg pure-button-small" ng-click="postUpdate()">修改</button>
+             <button class="pure-button warning-bg pure-button-small" ng-click="postDelete()">删除</button>
+            </div>
+        </div>
+        <div class="inner">
+            <table class="pure-table pure-table-horizontal">
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            <input type="checkbox" ng-model="parent.isSelectAll" ng-click="selectAll()">
+                        </th>
+                        <th><i class="fa fa-sort-alpha-asc"></i><a ng-click="predicate='name';reverse=!reverse">名字</a></th>
+                        <!-- <th><i class="fa fa-sort-alpha-asc"></i><a ng-click="predicate='imgUrl';reverse=!reverse">图片</a></th> -->
+                        <th><i class="fa fa-sort-alpha-asc"></i><a ng-click="predicate='url';reverse=!reverse">链接</a></th>
+                        <th><i class="fa fa-sort-amount-asc"></i><a ng-click="predicate='orderBy';reverse=!reverse">排序</a></th>
+                        <th><i class="fa fa-sort-amount-asc"></i><a ng-click="predicate='display';reverse=!reverse">展示</a></th>
+                        <th><i class="fa fa-sort-amount-asc"></i><a ng-click="predicate='date';reverse=!reverse">创建时间</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="friendLink in friendLinkList | orderBy:predicate:reverse">
+                        <td>
+                            <input type="checkbox" ng-model="friendLink.isSelect"/>
+                        </td>
+                        <td>{{friendLink.name}}</td>
+                        <!-- <td><img class="pure-img" alt="" ng-src="{{friendLink.imgUrl}}" style="height:50px;"></td> -->
+                        <td>
+                           <a ng-href="{{friendLink.url}}">{{friendLink.url}}</a>
+                        </td>
+                        <td class="text-center">{{friendLink.orderBy}}</td>
+                        <td class="text-center">
+                        <button class="pure-button pure-button-small" ng-click="toggleDisplay(friendLink)" ng-class="{'success-bg':friendLink.display}">
+                        {{friendLink.display?'已展示':'未展示'}}</button></td>
+                        <td class="text-center">{{friendLink.date | date:'yy-MM-dd HH:mm'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      <!--   <div class="inner well text-right">
+        
+            <button class="pure-button success-bg" ng-click="submit()">保存</button>
+            <button class="pure-button info-bg" ng-click="reset()">重置</button>
+        </div> -->
+    </div>
+    <div gen-pagination="pagination"></div>
+    <div ng-include="getfriendLinkModal">
+    	
+    </div>
+</div>
+</div>
+<div gen-modal="unSaveModal">确定要离开？未保存的数据将会丢失！</div>

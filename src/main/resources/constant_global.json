@@ -1,0 +1,22 @@
+{
+	"logo" :"/img/logo.png",
+	"beian" :"",
+	"keywords" :"",
+	"ArticleTagsMax" :2,
+	"TitleMinLen" :12,
+	"TitleMaxLen" :90,
+	"UserTagsMax" :2,
+	"ContentMinLen" :15,
+	"url" :"http://mc.0ydy.com/",
+	"upload" :true,
+	"register" :false,
+	"UserNameMaxLen" :15,
+	"SummaryMaxLen" :420,
+	"title" :"XJ同好协会社区",
+	"UserNameMinLen" :1,
+	"ContentMaxLen" :20480,
+	"description" :"minecraft",
+	"domain" :"mc.0ydy.com",
+	"metadesc" :"",
+	"metatitle" :"minecraft|xj"
+}

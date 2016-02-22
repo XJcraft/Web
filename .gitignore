@@ -1,0 +1,11 @@
+
+bower_components
+node_modules
+gradle
+gradlew
+gradlew.bat
+.gradle
+.idea
+*.iml
+out
+

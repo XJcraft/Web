@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>xj_web</display-name>
+
+<listener>
+	<listener-class>org.jim.xj.listener.RequestListener</listener-class>
+</listener>
+<listener>
+	<listener-class>org.jim.xj.listener.UserListener</listener-class>
+</listener>
+<listener>
+	<listener-class>org.jim.xj.listener.OnlineListener</listener-class>
+</listener>
+	<filter>
+		<filter-name>nutz</filter-name>
+		<filter-class>org.nutz.mvc.NutFilter</filter-class>
+		<init-param>
+			<param-name>modules</param-name>
+			<param-value>org.jim.xj.MainModule</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>nutz</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>nutz</filter-name>
+		<url-pattern>/session/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>indexPage</filter-name>
+		<filter-class>org.jim.xj.filter.IndexPageFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>skin</filter-name>
+		<filter-class>org.jim.xj.filter.SkinFilter</filter-class>
+	</filter>
+	
+	<filter>
+		<filter-name>skinPath</filter-name>
+		<filter-class>org.jim.xj.filter.SkinPathFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>indexPage</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>skin</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>skin</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>skinPath</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<!-- 缓存 -->
+	 <!-- GZIPFilter Definition -->
+  <filter>
+    <filter-name>GZIPFilter</filter-name>
+    <filter-class>com.tacitknowledge.filters.gzipfilter.GZIPFilter</filter-class>
+  </filter>
+
+  <!-- CacheFilter Definition -->
+  <filter>
+    <filter-name>CacheFilter</filter-name>
+    <filter-class>com.tacitknowledge.filters.cache.CacheHeaderFilter</filter-class>
+  </filter>
+
+<!-- GZIPFilter Mappings  - Alter to fit your circumstances -->  
+  <filter-mapping>
+    <filter-name>GZIPFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+   <filter-mapping>
+    <filter-name>GZIPFilter</filter-name>
+    <url-pattern>*.js</url-pattern>
+  </filter-mapping>
+ <filter-mapping>
+    <filter-name>GZIPFilter</filter-name>
+    <url-pattern>*.css</url-pattern>
+  </filter-mapping>
+  <!-- CacheFilter Mappings  - Alter to fit your circumstances -->
+  <filter-mapping>
+    <filter-name>CacheFilter</filter-name>
+    <url-pattern>*.gif</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheFilter</filter-name>
+    <url-pattern>*.jpg</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheFilter</filter-name>
+    <url-pattern>*.png</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheFilter</filter-name>
+    <url-pattern>*.js</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheFilter</filter-name>
+    <url-pattern>*.css</url-pattern>
+  </filter-mapping>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
+</web-app>

@@ -5,11 +5,9 @@
 var path = require('path');
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var minifycss = require('gulp-minify-css');
 var minifyhtml = require('gulp-minify-html');
-var clean = require('gulp-clean');
 
 var src = path.join(__dirname, 'web');
 var dist = path.join(__dirname, 'src/main/webapp');

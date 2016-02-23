@@ -17,17 +17,6 @@ public abstract class BaseAction {
 		return prefix+R.sg(5).next();
 	}
 
-	/*protected User getUser(){
-		return 	(User) Mvcs.getHttpSession().getAttribute("user");
-	}*/
-/*	protected String getUserId(){
-		User u = getUser();
-		return u == null?null:u.get_id();
-	}
-	protected boolean isEditor(){
-		User u = getUser();
-		return u == null?false:u.getRole()>=4;
-	}*/
 	
 	protected long now(){
 		return System.currentTimeMillis();

@@ -10,8 +10,8 @@ jsGen
             article: $resource('/api/article/:ID/:OP'),
             tag: $resource('/api/tag/:ID/:OP'),
             friendLink:$resource('/api/friendLink/:ID/:OP'),
-            survery:$resource('/api/survery/:ID/:OP'),
-            question:$resource('/api/question/:ID/:OP'),
+          //  survery:$resource('/api/survery/:ID/:OP'),
+           // question:$resource('/api/question/:ID/:OP'),
             skin:$resource('/api/skin/:ID/:OP')
         };
     }

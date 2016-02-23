@@ -69,10 +69,11 @@ public class IndexAction extends BaseAction {
 		int visitors = 0;//游客
 		@SuppressWarnings({ "unchecked" })
 		Set<HttpSession> sessions = (Set<HttpSession>) Mvcs.getServletContext().getAttribute("sessions");
-		for(HttpSession session : sessions){
-			if(session.getAttribute(AppContext.SESSION_USER)==null)
-				visitors++;
-		}
+		if(sessions!=null)
+			for (HttpSession session : sessions) {
+				if (session.getAttribute(AppContext.SESSION_USER) == null)
+					visitors++;
+			}
 		context.set("user", userService.getCurrentUser(Mvcs.getReq()));
 		context.set("onlineNum", visitors);
 		context.set("onlineUsers", usersize);

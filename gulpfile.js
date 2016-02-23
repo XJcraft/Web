@@ -80,7 +80,7 @@ gulp.task('js-lib', function () {
 
 
 gulp.task('js-main', function () {
-    return gulp.src(src.js)
+    return gulp.src(srcs.js)
         .pipe(concat('main.js'))
         .pipe(uglify())
         .pipe(gulp.dest(path.join(dist, 'js')));

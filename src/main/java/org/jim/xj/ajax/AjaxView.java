@@ -5,12 +5,17 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jim.xj.exception.XJException;
 import org.nutz.json.JsonFormat;
 import org.nutz.lang.Strings;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.View;
 
 public class AjaxView implements View {
+
+    private static Log log = Logs.get();
 
     private boolean uc;
 
@@ -42,7 +47,11 @@ public class AjaxView implements View {
         }
         // 异常
         else if (obj instanceof Throwable) {
-        	re = AjaxReturn.error((Throwable)obj);
+            Throwable error = (Throwable)obj;
+        	re = AjaxReturn.error(error);
+            if(!(error instanceof XJException)) {
+                log.warn(error.getMessage(),error);
+            }
         }
         // AjaxReturn
         else if (obj instanceof AjaxReturn) {

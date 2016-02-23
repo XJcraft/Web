@@ -30,7 +30,7 @@ public class AppContext implements Setup {
 
 	private static Map<String, FileContext> constants = new HashMap<String, FileContext>();
 	private static Ioc ioc;
-	
+
 	@Override
 	public void init(NutConfig nc) {
 		ioc = nc.getIoc();

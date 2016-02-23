@@ -46,6 +46,15 @@ public class UserAction extends BaseAction {
 	 * @At("/admin") public Object admin(){ return null; }
 	 */
 
+	// (POST) 用户登录
+	@POST
+	@At("/login")
+	public Object login(@Param("..") LoginForm form) throws XJException {
+		User u = userService.login(form);
+		userService.tryLogin(u, Mvcs.getReq(), form.isLogauto());
+		return u;
+	}
+
 	@At("/register")
 	// (POST) 用户注册
 	@POST
@@ -77,20 +86,6 @@ public class UserAction extends BaseAction {
 	public Object logout(HttpSession session) {
 		userService.logout(Mvcs.getReq());
 		return AjaxReturn.ok(null);
-	}
-
-	@POST
-	@At("/login")
-	// (POST) 用户登录
-	public Object login(@Param("..") LoginForm form) {
-		try {
-			User u = userService.login(form);
-			userService.tryLogin(u, Mvcs.getReq(), form.isLogauto());
-			return AjaxReturn.ok(u);
-		} catch (XJException e) {
-			e.printStackTrace();
-			return AjaxReturn.error(e);
-		}
 	}
 
 	// api/user/reset //(GET POST) 用户邮箱验证、申请解锁、重置密码、修改邮箱等涉及邮箱验证的操作

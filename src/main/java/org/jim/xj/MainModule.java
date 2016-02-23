@@ -15,7 +15,7 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @IocBy(type = ComboIocProvider.class, args = {
 		"*org.nutz.ioc.loader.json.JsonLoader", "dao.js",
 		"*org.nutz.ioc.loader.annotation.AnnotationIocLoader",
-		"org.jim.xj"/*,"org.nutz.jcache"*/ })
+		"org.jim.xj" })
 @Ok("ajax")
 @Fail("ajax")
 @Views(AjaxViewMaker.class)

@@ -30,7 +30,6 @@ public class XJException extends Exception {
 			throw new XJException(message);
 	}
 	public static void equals(String s1,String s2,String message)throws XJException{
-		//Logs.get().info("equal: "+s1+", "+s2);
 		if (!Strings.equals(s1, s2))
 			throw new XJException(message);
 	}

@@ -57,11 +57,11 @@ public class AppContext implements Setup {
 		save();
 	}
 
-	public static final synchronized Context getConfig(){
+	public static final Context getConfig(){
 		return getConstant(CONF_GLOBAL);
 	}
 
-	public static Context getConstant(String key) {
+	public static synchronized Context getConstant(String key) {
 		FileContext c = constants.get(key);
 		if (c == null) {
 			URL url = AppContext.class

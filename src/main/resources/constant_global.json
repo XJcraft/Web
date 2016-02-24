@@ -1,7 +1,7 @@
 {
 	"logo" :"/img/logo.png",
 	"beian" :"",
-	"keywords" :"",
+	"keywords" :"minecraft,xj,xjcraft,服务器,教育网",
 	"ArticleTagsMax" :2,
 	"TitleMinLen" :12,
 	"TitleMaxLen" :90,
@@ -15,8 +15,8 @@
 	"title" :"XJ同好协会社区",
 	"UserNameMinLen" :1,
 	"ContentMaxLen" :20480,
-	"description" :"minecraft",
+	"description" :"xjcraft,教育网的minecraft服务器",
 	"domain" :"mc.0ydy.com",
-	"metadesc" :"",
+	"metadesc" :"xjcraft,教育网的minecraft服务器",
 	"metatitle" :"minecraft|xj"
 }

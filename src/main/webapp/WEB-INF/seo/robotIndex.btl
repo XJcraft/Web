@@ -1,0 +1,33 @@
+<html lang="zh-CN">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="fragment" content="!">
+        <title>${global.title}</title>
+       <meta http-equiv="content-type" content="text/html">
+        <meta name="title" content="${global.metatitle}">
+        <meta name="description" content="${global.metadesc}">
+        <meta name="keywords" content="${global.keywords}">
+    </head>
+</head>
+<body>
+        <div>
+                <ul>
+                    <% for(article in articles){ %>
+                    <li>
+                        <header>
+                            <h5><a href="${article._id}">${article.title}</a></h5>
+                        </header>
+                        <section >${article.content}</section>
+                        <footer>
+                            <ul>
+                                <li><strong>${article.author.name}</strong>&nbsp;${article.date,dateFormat="yyyy-MM-dd HH:mm"}发表</li>
+                                <li>${article.visitors}次访问</li>
+                            </ul>
+                        </footer>
+                    </li>
+                    <% }; %>
+                </ul>
+        </div>
+</body>
+</html>

@@ -14,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jim.xj.exception.SkinNotFoundException;
 import org.jim.xj.service.SkinService;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
@@ -51,20 +52,17 @@ public class SkinFilter implements Filter {
 		Matcher m = pattern.matcher(url);
 		if (m.find()) {
 			if (skinService == null) {
-				skinService = Mvcs.ctx.getDefaultIoc().get(SkinService.class);
+				skinService = Mvcs.ctx().getDefaultIoc().get(SkinService.class);
 			}
 			try {
 				if (Strings.equalsIgnoreCase("Skins", m.group(1)))
 					view.render(req, resp, skinService.skin(m.group(2)));
-				// ImageIO.write(skinService.skin(m.group(2)), "PNG",
-				// response.getOutputStream());
 				else {
 					view.render(req, resp, skinService.cloak(m.group(2)));
-					// ImageIO.write(skinService.cloak(m.group(2)), "PNG",
-					// response.getOutputStream());
 				}
 			} catch (Throwable e) {
-				log.infof("%s of %s not found!", m.group(1), m.group(2));
+				if(!(e instanceof SkinNotFoundException))
+					log.warnf("%s of %s not found!", m.group(1), m.group(2));
 				resp.sendError(404);
 			}
 		} else {

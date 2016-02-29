@@ -184,14 +184,16 @@ public class SkinServiceImpl2 extends NameEntityService<Skin>implements SkinServ
 	@Override
 	public BufferedImage skin(String userId) throws Exception {
 		Skin skin = profile(userId, "skin", true);
-		return skin != null ? skin.getImage() : null;
+		if (skin == null || skin.getImage() == null) throw new SkinNotFoundException();
+		return skin.getImage();
 	}
 
-	@Override
-	public BufferedImage cloak(String userId) throws Exception {
-		Skin skin = profile(userId, "cloak", true);
-		return skin != null ? skin.getImage() : null;
-	}
+    @Override
+    public BufferedImage cloak(String userId) throws Exception {
+        Skin skin = profile(userId, "cloak", true);
+        if (skin == null || skin.getImage() == null) throw new SkinNotFoundException();
+        return skin.getImage();
+    }
 
 	@Override
 	public BufferedImage read(String path) throws IOException {

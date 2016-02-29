@@ -126,8 +126,14 @@ public class SkinServiceImpl2 extends NameEntityService<Skin>implements SkinServ
 			dao().insert(skin);
 			return skin;
 		} else {
-			if (readImage)
-				skin.setImage(read(home, skin.getFilePath()));
+			if (readImage){
+				try {
+					skin.setImage(read(home, skin.getFilePath()));
+				}catch (Exception e){
+					throw new IOException(e);
+				}
+			}
+
 		}
 		skin.setUrl(MvcUtil.basePath() + "SkinPath/" + skin.getFilePath() + ".png");
 		return skin;
@@ -152,7 +158,7 @@ public class SkinServiceImpl2 extends NameEntityService<Skin>implements SkinServ
 		}
 	}
 
-	public BufferedImage read(File folder, String path) throws IOException {
+	public BufferedImage read(File folder, String path) throws Exception {
 		String key = folder.getName() + path;
 		LazyLoadObject l = imageCache.get(key);
 		if (l == null) {
@@ -161,14 +167,10 @@ public class SkinServiceImpl2 extends NameEntityService<Skin>implements SkinServ
 				l = new LazyLoadObject() {
 
 					@Override
-					protected Object load() {
+					protected Object load() throws Exception{
 						if (file.exists())
-							try {
 								return ImageIO.read(file);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						return null;
+						return new SkinNotFoundException("皮肤文件丢失");
 					}
 				};
 				imageCache.put(key, l);
@@ -197,11 +199,15 @@ public class SkinServiceImpl2 extends NameEntityService<Skin>implements SkinServ
 
 	@Override
 	public BufferedImage read(String path) throws IOException {
-		return read(home, path);
+		try {
+			return read(home, path);
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
 	}
 
 	@Override
-	public SkinValue getSkinValue(User user) {
+	public SkinValue getSkinValue(User user) throws Exception{
 		LazyLoadObject obj = skinValueCache.get(user.getPlayerId());
 		if (obj == null) {
 			obj = new SkinLoadObjectImpl(dao(), this, user.getNickName());

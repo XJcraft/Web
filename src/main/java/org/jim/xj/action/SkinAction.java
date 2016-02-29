@@ -34,10 +34,17 @@ public class SkinAction extends BaseAction {
 	@Inject
 	private UserService userService;
 
+	/**
+	 * xjcraft皮肤插件接口
+	 * @param name
+	 * @param request
+	 * @return
+	 * @throws Exception
+     */
 	@At("/?")
 	@Fail("http:404")
 	@Filters
-	public Object profile(String name, HttpServletRequest request) {
+	public Object profile(String name, HttpServletRequest request) throws Exception{
 		User u = userService.getUser(name);
 		if (u != null)
 			return AjaxReturn.ok(getProfile(u));
@@ -111,7 +118,7 @@ public class SkinAction extends BaseAction {
 		skinService.deleteCloak(name);
 	}
 
-	Object getProfile(User name) {
+	private Object getProfile(User name) throws Exception{
 		SkinValue data = skinService.getSkinValue(name);
 		return data;
 	}

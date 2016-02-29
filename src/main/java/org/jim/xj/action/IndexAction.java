@@ -61,9 +61,10 @@ public class IndexAction extends BaseAction {
 	}
 
 	@At("/api/index")
-	public Object index() {
+	public Object index() throws Exception{
 		userService.checkLogin();
 		Context context = AppContext.getConfig().clone();
+		context.putAll(statusInfo.getData());
 		long now = now();
 		int usersize = userService.onlines().size();//会员
 		int visitors = 0;//游客
@@ -78,7 +79,7 @@ public class IndexAction extends BaseAction {
 		context.set("onlineNum", visitors);
 		context.set("onlineUsers", usersize);
 		context.set("date", now);
-		context.putAll(statusInfo.getData());
+
 		return context.getInnerMap();
 	}
 

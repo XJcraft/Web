@@ -6,4 +6,8 @@ public class SkinNotFoundException extends XJException{
 		super("皮肤不存在!");
 	}
 
+	public SkinNotFoundException(String msg) {
+		super(msg);
+	}
+
 }

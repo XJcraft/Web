@@ -10,17 +10,23 @@ public abstract class LazyLoadObject {
 	
 	private boolean load = false;
 	
-	protected abstract Object load();
+	protected abstract Object load() throws Exception;
 	
 	@SuppressWarnings("unchecked")
-	public synchronized <T>T getData(){
+	public synchronized <T>T getData() throws Exception{
 		if(isOutDate())
 			synchronized (lock) {
 				try{
 					data = load();
-				} catch(Exception e){e.printStackTrace();}
+				} catch(Exception e){
+					data = e;
+				}
 				load =true;
 			}
+
+		if(data instanceof Exception) {
+			throw (Exception)data;
+		}
 		return (T)data;
 	}
 	protected boolean isOutDate(){

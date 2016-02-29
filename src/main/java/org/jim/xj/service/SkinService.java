@@ -20,7 +20,7 @@ public interface SkinService {
 	 * @param user
 	 * @return
 	 */
-	public SkinValue getSkinValue(final User user);
+	public SkinValue getSkinValue(final User user) throws Exception;
 
 	public SkinValue getOfflineSkin(String playerId);
 

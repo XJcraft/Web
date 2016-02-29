@@ -18,7 +18,7 @@ public abstract class DatabaseLazyObject extends LazyLoadObject {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public synchronized <T> T getData() {
+	public synchronized <T> T getData() throws Exception{
 		Setting setting = dao.fetch(Setting.class, key);
 		if (setting != null && !setting.isOutDate())
 			return (T) Json.fromJson(setting.getValue());

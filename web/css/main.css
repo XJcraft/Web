@@ -436,9 +436,7 @@ body > div {
     text-decoration: none;
 }
 .media-list.comments > li {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    word-break: break-all;
 }
 
 .media-list.comments > li > a {

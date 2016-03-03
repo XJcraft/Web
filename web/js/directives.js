@@ -2,8 +2,8 @@
 /*global angular, $, jsGen*/
 
 jsGen
-.directive('genParseMd', ['isVisible','$timeout','$q',
-    function (isVisible,$timeout,$q) {
+.directive('genParseMd', ['isVisible','$timeout','$q','editormd',
+    function (isVisible,$timeout,$q,editormd) {
         // <div gen-parse-md="document"></div>
         // document是Markdown格式或一般文档字符串，解析成DOM后插入<div>
 
@@ -500,14 +500,21 @@ jsGen
             var defered = $q.defer();
             var editor = editormd(ele.attr('id'), angular.extend({
                 path: '/md-lib/',
-                value: ngModel.$viewValue || '',
+                markdown: ngModel.$viewValue || '',
                 delay: 0,
                 width:'100%',
                 placeholder: attrs.placeholder || '',
+                autoFocus:false,
+                emoji : true,
+                taskList : true,
+                codeFold : true,
+                tocm : true,         // Using [TOCM]
+                tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                flowChart : true,             // 开启流程图支持，默认关闭
+                sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
                 onload: function () {
                     editor.cm.on('change',function() {
                         var text = editor.getMarkdown();
-
                         if (ngModel.$viewValue != text) {
                             ngModel.$setViewValue(text);
                         }

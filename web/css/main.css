@@ -136,10 +136,6 @@ body > div {
     padding: 0 2em;
     min-height: 80px;
 }
-.article-content > p {
-    text-indent: 2em;
-    line-height: 1.62em;
-}
 .article-footer {
     padding: 1em;
     margin: 2em 0 1em;

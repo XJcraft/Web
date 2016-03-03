@@ -261,9 +261,29 @@ jsGen
 .factory('JSONKit', function () {
     return window.JSONKit;
 })
-.factory('editormd',function() {
-    return window.editormd;
-})
+.factory('editormd',['$q',function($q) {
+    var editormd = window.editormd;
+    // 添加script,css缓存
+    if (editormd) {
+        var cache = {};
+        angular.forEach(['loadScript', 'loadCSS'], function (funString) {
+            var bakFun = editormd[funString];
+            editormd[funString] = function (fileName, callback, into) {
+
+                var key = funString + '_' + fileName;
+                var defer = cache[key];
+                if (!defer) {
+                    defer = cache[key] = $q.defer();
+                    bakFun.call(this, fileName, defer.resolve, into)
+                }
+                defer.promise.then(callback || angular.noop);
+            }
+
+        })
+    }
+
+    return editormd;
+}])
 .factory('sanitize', ['JSONKit',
     function (JSONKit) {
         var San = Sanitize,

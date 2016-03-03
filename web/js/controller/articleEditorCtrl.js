@@ -80,7 +80,7 @@ jsGen.controller('articleEditorCtrl', ['app', '$scope', '$routeParams',  'getMar
             // policy: upyun.policy,
             //signature: upyun.signature,
             clickImage: function (file) {
-                $scope.article.content += '\n' + '![' + file.name + '](' + file.url + ')\n';
+                $scope.article.content = ($scope.article.content || '') + '\n' + '![' + file.name + '](' + file.url + ')\n';
             }
         };
 

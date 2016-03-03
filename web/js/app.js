@@ -128,10 +128,10 @@ jsGen.config(['$httpProvider', 'app',
         });
     }
 ])
-.run(['app', '$q', '$rootScope', '$location', '$timeout', '$filter', 'getFile', 'JSONKit', 'toast', 'timing', 'cache', 'restAPI', 'sanitize',
-    'mdParse', 'mdEditor', 'CryptoJS', 'promiseGet', 'myConf', 'anchorScroll', 'isVisible', 'applyFn', 'param', 'store', 'i18n-zh',
-    function (app, $q, $rootScope, $location, $timeout, $filter, getFile, JSONKit, toast, timing, cache, restAPI, sanitize, mdParse,
-        mdEditor, CryptoJS, promiseGet, myConf, anchorScroll, isVisible, applyFn, param, store, $locale) {
+.run(['app', '$q', '$rootScope', '$location', '$timeout', '$filter', 'getFile', 'JSONKit', 'toast', 'timing', 'cache', 'restAPI','sanitize',
+     'CryptoJS', 'promiseGet', 'myConf', 'anchorScroll', 'isVisible', 'applyFn', 'param', 'store', 'i18n-zh',
+    function (app, $q, $rootScope, $location, $timeout, $filter, getFile, JSONKit, toast, timing, cache, restAPI,sanitize,
+         CryptoJS, promiseGet, myConf, anchorScroll, isVisible, applyFn, param, store, $locale) {
         var unSave = {
                 stopUnload: false,
                 nextUrl: ''
@@ -183,8 +183,6 @@ jsGen.config(['$httpProvider', 'app',
         app.cache = cache;
         app.restAPI = restAPI;
         app.sanitize = sanitize;
-        app.mdParse = mdParse;
-        app.mdEditor = mdEditor;
         app.CryptoJS = CryptoJS;
         app.promiseGet = promiseGet;
         app.myConf = myConf;

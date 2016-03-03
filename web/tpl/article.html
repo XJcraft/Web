@@ -61,20 +61,23 @@
         <div class="panel" id="comments">
             <div class="inner" id="replyForm" gen-moving="replyMoving">
                 <h4>{{comment.title}}</h4>
-                <div class="wmd-preview article-content" ng-show="parent.wmdPreview" gen-parse-md="comment.content">
+                <!--<div class="wmd-preview article-content" ng-show="parent.wmdPreview" gen-parse-md="comment.content">
+                </div>-->
+                 <div gen-editor="comment"
+                      name="评论内容"
+                      placeholder="{{global.isLogin?'请使用MarkDown语法编辑内容':'您还没有登录，不能发表评论哦'}}"
+                      ng-model="comment.content"
+                      ui-validate="{maxlength:checkContentMax,minlength:checkContentMin}"
+                      gen-tooltip="validateTooltip"
+                      >
                 </div>
-                <form class="pure-form" ng-hide="parent.wmdPreview">
-                    <div id="wmd-button-bar"></div>
-                    <textarea class="wmd-input pure-input-1" id="wmd-input" name="评论内容" placeholder="{{global.isLogin?'请使用MarkDown语法编辑内容':'您还没有登录，不能发表评论哦'}}" ng-model="comment.content" rows="6" ui-validate="{maxlength:checkContentMax,minlength:checkContentMin}" gen-tooltip="validateTooltip" required>
-                    </textarea>
-                </form>
                 <div class="article-info">
-                    [使用<a ng-click="wmdHelp()">MarkDown语法</a>，{{global.ContentMinLen}} 到 {{global.ContentMaxLen}} 字节，当前<strong class="hot">{{parent.contentBytes}}</strong>字节]
+                    [使用MarkDown语法，{{global.ContentMinLen}} 到 {{global.ContentMaxLen}} 字节，当前<strong class="hot">{{parent.contentBytes}}</strong>字节]
                 </div>
                 <div class="text-right">
-                    <div class="pure-button-group">
+                    <!--<div class="pure-button-group">
                         <button class="pure-button pure-button-small info-bg" ng-click="wmdPreview()">编辑 / 预览</button>
-                    </div>
+                    </div>-->
                     <div class="pure-button-group">
                         <button class="pure-button pure-button-small info-bg" ng-if="comment.replyToComment" ng-click="reply(article)">返回</button>
                         <button class="pure-button pure-button-small success-bg" ng-click="submit()" >提交</button>

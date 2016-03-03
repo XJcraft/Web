@@ -1,8 +1,8 @@
 /**
  * Created by JIMLIANG on 2015/8/18 0018.
  */
-jsGen.controller('articleCtrl', ['app', '$scope', '$routeParams', 'mdEditor', 'getList', 'getMarkdown',
-    function (app, $scope, $routeParams, mdEditor, getList, getMarkdown) {
+jsGen.controller('articleCtrl', ['app', '$scope', '$routeParams', 'getList', 'getMarkdown',
+    function (app, $scope, $routeParams, getList, getMarkdown) {
         var ID = 'A' + $routeParams.ID,
             myConf = app.myConf,
             locale = app.locale,
@@ -147,7 +147,7 @@ jsGen.controller('articleCtrl', ['app', '$scope', '$routeParams', 'mdEditor', 'g
                 initReply();
             } else {
                 comment.replyToComment = article._id;
-                comment.title = locale.ARTICLE.reply + cutTextFn(app.sanitize(app.mdParse(article.content), 0), global.TitleMaxLen - 9);
+                comment.title = locale.ARTICLE.reply + cutTextFn(app.sanitize(article.content, 0), global.TitleMaxLen - 9);
                 $scope.replyMoving.appendTo('#' + article._id);
             }
             $scope.replyMoving.scrollIntoView();
@@ -375,7 +375,6 @@ jsGen.controller('articleCtrl', ['app', '$scope', '$routeParams', 'mdEditor', 'g
             });
         });
 
-        mdEditor().run();
         // 获取文章
         app.promiseGet({
             ID: ID

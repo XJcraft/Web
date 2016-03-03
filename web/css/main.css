@@ -1577,3 +1577,11 @@ input.upload-input {
 .inner-block > li {
     display: block;
 }
+
+.editormd-html-preview, .editormd-preview-container {
+    width: auto;
+}
+
+.editormd-fullscreen {
+    z-index: 2;
+}

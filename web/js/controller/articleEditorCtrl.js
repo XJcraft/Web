@@ -1,8 +1,8 @@
 /**
  * Created by JIMLIANG on 2015/8/18 0018.
  */
-jsGen.controller('articleEditorCtrl', ['app', '$scope', '$routeParams', 'mdEditor', 'getMarkdown',
-    function (app, $scope, $routeParams, mdEditor, getMarkdown) {
+jsGen.controller('articleEditorCtrl', ['app', '$scope', '$routeParams',  'getMarkdown',
+    function (app, $scope, $routeParams, getMarkdown) {
         var oldArticle,
             ID = $routeParams.ID && 'A' + $routeParams.ID,
             toStr = app.toStr,
@@ -166,7 +166,6 @@ jsGen.controller('articleEditorCtrl', ['app', '$scope', '$routeParams', 'mdEdito
             });
         }
 
-        mdEditor().run();
         if (ID) {
             oldArticle = articleCache.get(ID);
             app.promiseGet({

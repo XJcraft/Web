@@ -2,11 +2,58 @@
 /*global angular, $, jsGen*/
 
 jsGen
-.directive('genParseMd', ['mdParse', 'sanitize', 'pretty', 'isVisible', '$timeout',
-    function (mdParse, sanitize, pretty, isVisible, $timeout) {
+.directive('genParseMd', ['isVisible','$timeout','$q',
+    function (isVisible,$timeout,$q) {
         // <div gen-parse-md="document"></div>
         // document是Markdown格式或一般文档字符串，解析成DOM后插入<div>
+
+        var loadedPromise = (function() {
+            var deferred  = $q.defer();
+            editormd.prototype.loadQueues.call({
+                settings:{
+                    path:'/md-lib/',
+                    flowChart:true,
+                    sequenceDiagram:true,
+                    searchReplace:true,
+                    readOnly:true,
+                    codeFold:true,
+                    previewCodeHighlight:true,
+                    mode:'markdown'
+                },
+                setToolbar:function(){},
+                setCodeMirror:function(){},
+                loadedDisplay:deferred.resolve
+            });
+            return deferred.promise;
+        })();
+
+
+        var markdownToHTML = function(id,html) {
+            return loadedPromise.then(function(){
+                return editormd.markdownToHTML(id, {
+                    markdown        : html ,//+ "\r\n" + $("#append-test").text(),
+                    //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+                    htmlDecode      : "style,script,iframe",  // you can filter tags decode
+                    //toc             : false,
+                    tocm            : true,    // Using [TOCM]
+                    //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                    //gfm             : false,
+                    //tocDropdown     : true,
+                    // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                    emoji           : true,
+                    taskList        : true,
+                    tex             : true,  // 默认不解析
+                    flowChart       : true,  // 默认不解析
+                    sequenceDiagram : true,  // 默认不解析
+                });
+            });
+        };
+
+        var id = 0;
         return function (scope, element, attr) {
+            if(!element.attr('id')) {
+                element.attr('id','md-preview-'+(++id));
+            }
             scope.$watch(attr.genParseMd, function (value) {
                 if (isVisible(element)) {
                     parseDoc(value);
@@ -19,22 +66,7 @@ jsGen
 
             function parseDoc(value) {
                 if (angular.isDefined(value)) {
-                    value = mdParse(value);
-                    value = sanitize(value);
-                    element.html(value);
-                    angular.forEach(element.find('code'), function (value) {
-                        value = angular.element(value);
-                        if (!value.parent().is('pre')) {
-                            value.addClass('prettyline');
-                        }
-                    });
-                    element.find('pre').addClass('prettyprint'); // linenums have bug!
-                    element.find('a').attr('target', function () {
-                        if (this.host !== location.host) {
-                            return '_blank';
-                        }
-                    });
-                    pretty();
+                    markdownToHTML(element.attr('id'),value);
                 }
             }
         };
@@ -423,4 +455,89 @@ jsGen
             }]
         };
     }
-]);
+])
+.directive('genEditor', ['$q','editormd', function ($q,editormd) {
+    // <div gen-editor ng-model="model" placeholder="..."></div>
+
+    var modes = {
+        'article': {
+            height: '450px',
+            watch: true,
+            toolbarIcons: function () {
+                return [
+                    "undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "watch", "fullscreen", "|",
+                    "help"
+                ]
+            }
+        },
+        'comment': {
+            height: '300px',
+            watch: false,
+            toolbarIcons: function () {
+                return [
+                    "bold", "del", "italic", "quote", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "watch","fullscreen", "|",
+                    "help"
+                ]
+            }
+        }
+    };
+    var id = 0;
+    return {
+        require: '?ngModel',
+        restrict: 'A',
+        link: function (scope, ele, attrs, ngModel) {
+
+            if (!ele.attr('id')) {
+                ele.attr('id', 'md-input-' + (++id))
+            }
+            var defered = $q.defer();
+            var editor = editormd(ele.attr('id'), angular.extend({
+                path: '/md-lib/',
+                value: ngModel.$viewValue || '',
+                delay: 0,
+                width:'100%',
+                placeholder: attrs.placeholder || '',
+                onload: function () {
+                    editor.cm.on('change',function() {
+                        var text = editor.getMarkdown();
+
+                        if (ngModel.$viewValue != text) {
+                            ngModel.$setViewValue(text);
+                        }
+                    });
+
+                    defered.resolve();
+                }/*,
+                // BUG ,onchange只有在watch=true时触发
+                onchange: function () {
+                    var text = this.getMarkdown();
+                    console.log('change '+attrs.ngModel,text);
+                    if (ngModel.$viewValue != text) {
+                        ngModel.$setViewValue(text);
+                    }
+                }*/
+
+            }, modes[attrs.genEditor || 'article']));
+
+
+
+            scope.$watch(attrs.ngModel, function (newValue,oldValue) {
+                //console.log('watch '+attrs.ngModel,oldValue,'==>',newValue);
+                defered.promise.then(function () {
+                    var text = editor.getMarkdown();
+                    if (newValue != text) {
+                        editor.setMarkdown(newValue);
+                    }
+                })
+            })
+        }
+    }
+}])
+;

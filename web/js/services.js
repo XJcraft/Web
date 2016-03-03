@@ -1,5 +1,5 @@
 'use strict';
-/*global angular, jsGen, marked, Sanitize, Markdown, prettyPrint, toastr, CryptoJS, utf8, store, JSONKit*/
+/*global angular, jsGen, marked, Markdown, toastr, CryptoJS, utf8, store, JSONKit*/
 
 jsGen
 .factory('restAPI', ['$resource',
@@ -10,8 +10,6 @@ jsGen
             article: $resource('/api/article/:ID/:OP'),
             tag: $resource('/api/tag/:ID/:OP'),
             friendLink:$resource('/api/friendLink/:ID/:OP'),
-          //  survery:$resource('/api/survery/:ID/:OP'),
-           // question:$resource('/api/question/:ID/:OP'),
             skin:$resource('/api/skin/:ID/:OP')
         };
     }
@@ -248,9 +246,6 @@ jsGen
         return toast;
     }
 ])
-.factory('pretty', function () {
-    return window.prettyPrint;
-})
 .factory('param', function () {
     return $.param;
 })
@@ -266,13 +261,9 @@ jsGen
 .factory('JSONKit', function () {
     return window.JSONKit;
 })
-.factory('mdParse', ['JSONKit',
-    function (JSONKit) {
-        return function (html) {
-            return window.marked(JSONKit.toStr(html));
-        };
-    }
-])
+.factory('editormd',function() {
+    return window.editormd;
+})
 .factory('sanitize', ['JSONKit',
     function (JSONKit) {
         var San = Sanitize,
@@ -291,31 +282,6 @@ jsGen
             innerDOM.innerHTML = JSONKit.toStr(html);
             outerDOM.appendChild(sanitize[level].clean_node(innerDOM));
             return outerDOM.innerHTML;
-        };
-    }
-])
-.factory('mdEditor', ['mdParse', 'sanitize', 'pretty', 'JSONKit',
-    function (mdParse, sanitize, pretty, JSONKit) {
-        return function (idPostfix, level) {
-            idPostfix = JSONKit.toStr(idPostfix);
-            var editor = new Markdown.Editor({
-                makeHtml: function (text) {
-                    return sanitize(mdParse(text), level);
-                }
-            }, idPostfix);
-            var element = angular.element(document.getElementById('wmd-preview' + idPostfix));
-            editor.hooks.chain('onPreviewRefresh', function () {
-            	element.find('table').addClass('pure-table');
-                angular.forEach(element.find('code'), function (value) {
-                    value = angular.element(value);
-                    if (!value.parent().is('pre')) {
-                        value.addClass('prettyline');
-                    }
-                });
-                element.find('pre').addClass('prettyprint'); // linenums have bug!
-                pretty();
-            });
-            return editor;
         };
     }
 ]);

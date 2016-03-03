@@ -35,7 +35,7 @@ gulp.task('css', function () {
             'bower_components/pure/pure.css',
             'bower_components/toastr/toastr.css',
             'bower_components/font-awesome/css/font-awesome.css',
-            path.join(src, 'css/prettify.css'),
+            path.join(src, 'css/editormd.css'),
             path.join(src, 'css/main.css')
         ])
         .pipe(concat('app.css'))
@@ -56,8 +56,6 @@ gulp.task('js-lib', function () {
             'bower_components/angular-i18n/angular-locale_zh-cn.js',
             'bower_components/angular-ui-validate/dist/validate.js',
             'bower_components/angular-file-upload/dist/angular-file-upload.min.js',
-            'bower_components/google-code-prettify/src/prettify.js',
-            //'bower_components/marked/lib/marked.js',
             'bower_components/toastr/toastr.js',
             //'bower_components/crypto-js/hmac-sha256.js',
             'bower_components/crypto-js/core.js',
@@ -66,10 +64,9 @@ gulp.task('js-lib', function () {
             'bower_components/store2/dist/store2.js',
             'bower_components/jsonkit/jsonkit.js',
             'web/js/lib/bootstrap.js',
-            'web/js/lib/Markdown.Editor.js',
             'web/js/lib/sanitize.js',
             'web/js/lib/utf8.js',
-            'web/js/lib/marked.js',
+            'web/js/lib/editormd.js',
         ])
         .pipe(concat('lib.js'))
         .pipe(uglify())
@@ -91,6 +88,10 @@ gulp.task('tpl', function () {
             spare: true
         }))
         .pipe(gulp.dest(dists.tpl))
+});
+
+gulp.task('default',function(){
+    gulp.start(['js-lib','js-main','tpl','css']);
 });
 
 gulp.task('watch', function () {

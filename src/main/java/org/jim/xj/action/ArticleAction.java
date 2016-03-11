@@ -43,27 +43,21 @@ public class ArticleAction extends BaseAction {
 	public Object latest(@Param("..") PageForm form) {
 		Pagination page = form.create();
 		List<Article> articles = articleService.lastest(page);
-		AjaxReturn result = AjaxReturn.ok(articles);
-		result.setPagination(page);
-		return result;
+		return AjaxReturn.ok(articles).setPagination(page);
 	}
 
 	@At("/article/hots")
 	public Object hots(@Param("..") PageForm form) {
 		Pagination page = form.create();
 		List<Article> articles = articleService.hot(page);
-		AjaxReturn result = AjaxReturn.ok(articles);
-		result.setPagination(page);
-		return result;
+		return AjaxReturn.ok(articles).setPagination(page);
 	}
 
 	@At("/article/update")
 	public Object update(@Param("..") PageForm form) {
 		Pagination page = form.create();
 		List<Article> articles = articleService.update(page);
-		AjaxReturn result = AjaxReturn.ok(articles);
-		result.setPagination(page);
-		return result;
+		return AjaxReturn.ok(articles).setPagination(page);
 	}
 
 	@At("/user/comment/comment")
@@ -158,11 +152,11 @@ public class ArticleAction extends BaseAction {
 	public Object editArticle(String articleId, @Param("..") ArticleEditForm form) {
 		Article article = articleService.fetch(articleId);
 		if (article == null) {
-			AjaxReturn.error("文章不存在");
+			return AjaxReturn.error("文章不存在");
 		}
 		User u = userService.getCurrentUser(Mvcs.getReq());
 		if (!(u.isEditor() || u.get_id().equals(article.get_id()))) {
-			AjaxReturn.error("权限不足!");
+			return AjaxReturn.error("权限不足!");
 		}
 		article.setTitle(form.getTitle());
 		article.setContent(form.getContent());
@@ -289,7 +283,7 @@ public class ArticleAction extends BaseAction {
 				a.setJing(jing);
 				articleService.update(a);
 			} else {
-				AjaxReturn.error("权限不足");
+				return AjaxReturn.error("权限不足");
 			}
 		}
 		return AjaxReturn.ok(a);

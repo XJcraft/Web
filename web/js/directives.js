@@ -7,29 +7,36 @@ jsGen
         // <div gen-parse-md="document"></div>
         // document是Markdown格式或一般文档字符串，解析成DOM后插入<div>
 
-        var loadedPromise = (function() {
-            var deferred  = $q.defer();
-            editormd.prototype.loadQueues.call({
-                settings:{
-                    path:'/md-lib/',
-                    flowChart:true,
-                    sequenceDiagram:true,
-                    searchReplace:true,
-                    readOnly:true,
-                    codeFold:true,
-                    previewCodeHighlight:true,
-                    mode:'markdown'
-                },
-                setToolbar:function(){},
-                setCodeMirror:function(){},
-                loadedDisplay:deferred.resolve
-            });
-            return deferred.promise;
+        var getLoadedPromise = (function(){
+            var loadedPromise;
+            return function () {
+                if(!loadedPromise) {
+                    loadedPromise = (function() {
+                        var deferred  = $q.defer();
+                        editormd.prototype.loadQueues.call({
+                            settings:{
+                                path:'/md-lib/',
+                                flowChart:true,
+                                sequenceDiagram:true,
+                                searchReplace:true,
+                                readOnly:true,
+                                codeFold:true,
+                                previewCodeHighlight:true,
+                                mode:'markdown'
+                            },
+                            setToolbar:function(){},
+                            setCodeMirror:function(){},
+                            loadedDisplay:deferred.resolve
+                        });
+                        return deferred.promise;
+                    })();
+                }
+                return loadedPromise;
+            }
         })();
 
-
         var markdownToHTML = function(id,html) {
-            return loadedPromise.then(function(){
+            return getLoadedPromise().then(function(){
                 return editormd.markdownToHTML(id, {
                     markdown        : html ,//+ "\r\n" + $("#append-test").text(),
                     //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启

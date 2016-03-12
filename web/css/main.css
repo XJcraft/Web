@@ -453,9 +453,6 @@ body > div {
     margin-top: 10px;
     border-top: none;
 }
-.media-content > p {
-    text-indent: 2em;
-}
 .comments .media-content > p {
     margin: .5em 0;
 }
@@ -1576,6 +1573,7 @@ input.upload-input {
 
 .editormd-html-preview, .editormd-preview-container {
     width: auto;
+    background: none;
 }
 
 .editormd-fullscreen {

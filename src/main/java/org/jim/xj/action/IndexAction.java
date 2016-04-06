@@ -96,12 +96,13 @@ public class IndexAction extends BaseAction {
 	@Ok("json")
 	public Object upload(@Param("file") TempFile file) throws IOException {
 		String dir = "/upload/";
-		String md5 = Lang.md5(file.getFile());
+		String md5 = Lang.md5(file.getInputStream());
 		String name = md5 + file.getMeta().getFileExtension();
 		String targetDir = Mvcs.getServletContext().getRealPath(dir);
-		File target = new File(targetDir + File.separator + name);
-		Files.move(file.getFile(), target);
-		log.info("move:" + file.getFile().getAbsolutePath() + "-->" + target.getAbsolutePath());
-		return new Resource(dir + name, file.getMeta().getFileLocalPath(), md5);
+		String target = targetDir + File.separator + name;
+		file.write(target);
+		file.delete();
+		log.info("upload -->" + target);
+		return new Resource(dir + name, file.getSubmittedFileName(), md5);
 	}
 }

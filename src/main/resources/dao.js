@@ -6,9 +6,9 @@ var ioc = {
 			depose : 'close'
 		},
 		fields : {
-			url : "jdbc:mysql://localhost:3306/xj_web?useUnicode=true&characterEncoding=utf-8",
-			username : "root",
-			password : "1234",
+            url: "jdbc:mysql://localhost:3306/mc?useUnicode=true&characterEncoding=utf-8",
+            username: "mc",
+            password: "password",
 			testWhileIdle : true,
 			maxActive : 100
 		}
